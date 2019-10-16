@@ -56,7 +56,6 @@ class MlbamGamedayReader(object):
             return game_json.get('home_runs')
         except AttributeError:
             print('Error accessing games in master scoreboard JSON object, exiting!')
-            print(game_json)
             return
     
     def get_player_homeruns_for_game_date(self, game_date):
@@ -65,14 +64,15 @@ class MlbamGamedayReader(object):
         @param  {datetime.date} game_date
         @return {list<dict>}
         '''
-        total_player_homeruns = []
-        
+        # Get games for the game date provided
         game_date_data = self.__get_gameday_json(game_date, SCOREBOARD_FILE_NAME)
         games = self.__get_games_from_json(game_date_data)
         if not games or not isinstance(games, list):
             print('No games found on %s -- passing' % (game_date,))
             return
     
+        # For each game, find player homeruns, and make a list of them
+        total_player_homeruns = []
         for game in games:
             player_homeruns = self.__get_player_homeruns_from_game(game)
             if not player_homeruns or not player_homeruns.get('player'):
@@ -85,9 +85,4 @@ class MlbamGamedayReader(object):
                 total_player_homeruns.append(player_homeruns.get('player'))
 
         return total_player_homeruns
-
-    def __init__(self): 
-        '''
-        Constructor
-        '''
-        pass
+        

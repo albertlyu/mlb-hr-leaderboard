@@ -3,6 +3,12 @@
 ## Overview
 A Python project to display MLB homerun leaderboards using MLB Gameday JSON APIs
 
+## Usage:
+- Open a Terminal window at the root of this project
+- `python3 main.py --season 2019 --month 7` for an MLB homerun leaderboard for July 2019
+- `python3 main.py --season 2019 --month 6 --month_end 7` for an MLB homerun leaderboard for the range of June-July 2019
+- `python3 main.py --season 2019` for an MLB homerun leaderboard for the 2019 season (Note: will take a long time)
+
 ## To Do:
 - [x] Set up main runner for getting URLs for scoreboard JSON
 - [x] Main runner to accept args for season and month (require season)
@@ -15,6 +21,9 @@ A Python project to display MLB homerun leaderboards using MLB Gameday JSON APIs
 - [x] Print HR leaderboard to output
 
 ## Improvements:
-- [ ] Figure out bug where HR leaderboards don't line up with ESPN!
+- [ ] Find a more accurate source for home run logs! (see bug #1)
 - [ ] Testing framework
 - [ ] Thread scoreboard requests
+
+## Credit:
+- MLBAM for providing the data for this project

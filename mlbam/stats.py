@@ -44,6 +44,7 @@ class PlayerStatsTracker(object):
         Get the current homerun leaderboard
         @return {list<list>}
         '''
+        # For each player with homeruns being tracked, make a homerun stat line
         hr_dict = self.player_stats['homeruns']
         hr_lines = []
         for player_id in hr_dict.keys():
@@ -52,7 +53,9 @@ class PlayerStatsTracker(object):
             hr_line = [player.name_first, player.name_last, home_runs]
             hr_lines.append(hr_line)
             
+        # Sort the homerun leaderboard by the 3rd field, which is the number of HRs
         hr_lines.sort(key=lambda x: x[2], reverse=True)
+
         return hr_lines
 
     def __init__(self):

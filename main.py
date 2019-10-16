@@ -16,12 +16,11 @@ def main():
     '''
     The main entrypoint for accessing MLBAM scoreboard JSON
     '''
+    # Parse those args
     args = parser.parse_args()
-    
     season = args.season
     month_start = args.month or args.month_end or 3 # assume the earliest regular season date is in Mar
     month_end = args.month_end or args.month or 11  # assume the latest regular season date is in Oct
-
     if month_start and month_end and month_end < month_start:
         raise ValueError('Please re-enter a month and month_end where month_end is later than the month. month: ' + str(args.month) + ', month_end: ' + str(args.month_end))
 
@@ -30,6 +29,7 @@ def main():
     game_date_end = utils.last_date_of_month(date(season, month_end, 1))
     game_dates = [game_date_start + timedelta(days=x) for x in range((game_date_end-game_date_start).days+1)]
 
+    # Instantiate our MLBAM Gameday reader and a Player Stats Tracker
     mlbam_reader = gameday.MlbamGamedayReader()
     stats_tracker = stats.PlayerStatsTracker()
 
@@ -40,9 +40,8 @@ def main():
             for player_homeruns in player_homeruns_for_game_date:
                 stats_tracker.add_player_homeruns(player_homeruns)
 
-    # Get the final homerun leaderboard!
+    # Get and print the final homerun leaderboard!
     homerun_leaderboard = stats_tracker.get_homerun_leaderboard()
-
     for homerun_line in homerun_leaderboard:
         print(homerun_line[0] + ' ' + homerun_line[1] + ' ' + str(homerun_line[2]))
 
