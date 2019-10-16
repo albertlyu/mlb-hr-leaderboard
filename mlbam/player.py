@@ -11,7 +11,7 @@ class Player(object):
         '''
         Constructor
         '''
-        self.id = player.id
-        self.name_first = player.first
-        self.name_last = player.last
-        self.name_display = player.name_display_roster
+        self.id = int(player['id'])
+        self.name_first = player['first']
+        self.name_last = player['last']
+        self.name_display = player['name_display_roster']

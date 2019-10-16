@@ -3,6 +3,7 @@
 A module for reading MLBAM Gameday files
 '''
 import requests
+import time
 
 BASE_URL = "https://gd2.mlb.com/components/game/mlb"
 SCOREBOARD_FILE_NAME = 'master_scoreboard.json'
@@ -24,6 +25,7 @@ class MlbamGamedayReader(object):
         gameday_json_url = BASE_URL + "/year_%s/month_%02d/day_%02d/%s" % (year, month, day, json_file_name)
         
         response = requests.get(gameday_json_url)
+        time.sleep(1)  # being nice
         
         if response.status_code == 200:
             return response.json().get('data')
@@ -57,27 +59,26 @@ class MlbamGamedayReader(object):
             print(game_json)
             return
     
-    def get_player_homeruns(self, game_dates):
+    def get_player_homeruns_for_game_date(self, game_date):
         '''
-        Public method to get the player-homeruns for a list of game dates
-        @param  {list<datetime.date>} game_dates
+        Public method to get the player-homeruns for a game date
+        @param  {datetime.date} game_date
         @return {list<dict>}
         '''
         total_player_homeruns = []
         
-        for game_date in game_dates:
-            game_date_data = self.__get_gameday_json(game_date, SCOREBOARD_FILE_NAME)
-            games = self.__get_games_from_json(game_date_data)
-            if not games or not isinstance(games, list):
-                print('No games found on %s -- passing' % (game_date,))
+        game_date_data = self.__get_gameday_json(game_date, SCOREBOARD_FILE_NAME)
+        games = self.__get_games_from_json(game_date_data)
+        if not games or not isinstance(games, list):
+            print('No games found on %s -- passing' % (game_date,))
+            return
+    
+        for game in games:
+            player_homeruns = self.__get_player_homeruns_from_game(game)
+            if not player_homeruns or not player_homeruns.get('player') or not isinstance(player_homeruns.get('player'), list):
+                print('No homeruns found for %s -- passing' % (game.get('gameday'),))
                 continue
-        
-            for game in games:
-                player_homeruns = self.__get_player_homeruns_from_game(game)
-                if not player_homeruns:
-                    print('No homeruns found for %s -- passing' % (game.get('gameday'),))
-                    continue
-                total_player_homeruns.extend(player_homeruns)
+            total_player_homeruns.extend(player_homeruns.get('player'))
 
         return total_player_homeruns
 
