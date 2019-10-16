@@ -25,7 +25,7 @@ class MlbamGamedayReader(object):
         gameday_json_url = BASE_URL + "/year_%s/month_%02d/day_%02d/%s" % (year, month, day, json_file_name)
         
         response = requests.get(gameday_json_url)
-        time.sleep(1)  # being nice
+        time.sleep(0.1)  # being nice
         
         if response.status_code == 200:
             return response.json().get('data')
@@ -75,10 +75,14 @@ class MlbamGamedayReader(object):
     
         for game in games:
             player_homeruns = self.__get_player_homeruns_from_game(game)
-            if not player_homeruns or not player_homeruns.get('player') or not isinstance(player_homeruns.get('player'), list):
+            if not player_homeruns or not player_homeruns.get('player'):
                 print('No homeruns found for %s -- passing' % (game.get('gameday'),))
                 continue
-            total_player_homeruns.extend(player_homeruns.get('player'))
+            if isinstance(player_homeruns.get('player'), list):
+                total_player_homeruns.extend(player_homeruns.get('player'))
+            else:
+                # if only one player hit homeruns in the game, its an object! oof...
+                total_player_homeruns.append(player_homeruns.get('player'))
 
         return total_player_homeruns
 

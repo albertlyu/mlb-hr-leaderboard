@@ -40,5 +40,11 @@ def main():
             for player_homeruns in player_homeruns_for_game_date:
                 stats_tracker.add_player_homeruns(player_homeruns)
 
+    # Get the final homerun leaderboard!
+    homerun_leaderboard = stats_tracker.get_homerun_leaderboard()
+
+    for homerun_line in homerun_leaderboard:
+        print(homerun_line[0] + ' ' + homerun_line[1] + ' ' + str(homerun_line[2]))
+
 if __name__ == '__main__':
     main()

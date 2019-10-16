@@ -12,7 +12,9 @@ A Python project to display MLB homerun leaderboards using MLB Gameday JSON APIs
 - [x] For each new player found, track in PlayerStatsTracker
 - [x] Keep track of players found in Players instance
 - [x] Keep track of the number of homeruns hit by player ID in PlayerStatsTracker instance
-- [ ] Print HR leaderboard to output
+- [x] Print HR leaderboard to output
 
 ## Improvements:
+- [ ] Figure out bug where HR leaderboards don't line up with ESPN!
 - [ ] Testing framework
+- [ ] Thread scoreboard requests
