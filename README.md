@@ -21,7 +21,7 @@ A Python project to display MLB homerun leaderboards using MLB Gameday JSON APIs
 - [x] Print HR leaderboard to output
 
 ## Improvements:
-- [ ] Find a more accurate source for home run logs! (see bug #1)
+- [ ] Find a more accurate source for home run logs! (see [bug #1](https://github.com/albertlyu/mlb-hr-leaderboard/issues/1))
 - [ ] Testing framework
 - [ ] Thread scoreboard requests
 
